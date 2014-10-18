@@ -1,0 +1,22 @@
+# NOTE: We're NOT ignoring config/database.yml, because we're pulling the production passwords from a separate file.
+.DS_Store
+log/*.log
+log/*.pid
+tmp/**/*
+db/schema.rb
+db/*.sqlite3
+db/*.db
+doc/api
+doc/app
+vendor/**/.git
+vendor/bundle/*
+coverage/*
+autotest_result.html
+rerun.txt
+features/rerun.txt
+public/javascripts/*_[0-9]*.js
+public/stylesheets/*_[0-9]*.css
+public/attachments/*
+bin/*
+.bundle/config
+.env*
