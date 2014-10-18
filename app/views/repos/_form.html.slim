@@ -1,3 +1,6 @@
-== form_for repo, as: :repo, url: '/repos', method: :create, html: { class: "edit_repo" } do |form|
-  == form.text_field :name
-  == form.submit "Analyze!"
+div.page-header
+  h2 Analyze Repo
+
+== form_for repo, as: :repo, url: '/repos', method: :create, html: { class: "edit_repo", role: 'form' } do |form|
+  == form.text_field :name, placeholder: 'railsrumble/r14-team-290'
+  == form.submit "Analyze!", class: 'btn btn-default'

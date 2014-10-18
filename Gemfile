@@ -45,25 +45,27 @@ group :development, :test do
 end
 
 
-gem 'rails_12factor', groups: [:production, :staging]
 gem 'annotate', '~> 2.6', groups: [:development]
-gem 'bullet', '~> 4.14', groups: [:development, :test]
-gem 'rspec', '~> 3.1', groups: ["development", "test"]
-gem 'rspec-rails', '~> 3.1', groups: ["development", "test"]
+gem 'autoprefixer-rails'
 gem 'bogus', '~> 0.1.5', groups: ["test"]
-gem 'database_cleaner', '~> 1.3', groups: ["test"]
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bullet', '~> 4.14', groups: [:development, :test]
+gem 'capistrano', '~> 3.2'
+gem 'capybara', '~> 2.4', groups: ["test"]
 gem 'cucumber', '~> 1.3', groups: ["development", "test"]
 gem 'cucumber-rails', '~> 1.4', groups: ["test"], require: false
-gem 'capybara', '~> 2.4', groups: ["test"]
-gem 'factory_girl_rails', '~> 4.4', groups: ["development", "test"]
-gem 'shoulda', '~> 3.5', groups: ["test"]
-gem 'jasmine', '~> 2.0', groups: ["development", "test"]
-gem 'sidekiq', '~> 3.2'
+gem 'database_cleaner', '~> 1.3', groups: ["test"]
 gem 'email_spec', '~> 1.6', groups: ["test"]
-gem 'metric_fu', '~> 4.11', groups: [:development, :test]
-gem 'slim-rails', '~> 2.1'
+gem 'factory_girl_rails', '~> 4.4', groups: ["development", "test"]
 gem 'haml', '~> 4.0'
-gem 'rails-footnotes', '~> 4.1', groups: [:development]
-gem 'unicorn', '~> 4.8'
+gem 'jasmine', '~> 2.0', groups: ["development", "test"]
+gem 'metric_fu', '~> 4.11', groups: [:development, :test]
 gem 'rack-handlers', '~> 0.7'
-gem 'capistrano', '~> 3.2'
+gem 'rails-footnotes', '~> 4.1', groups: [:development]
+gem 'rails_12factor', groups: [:production, :staging]
+gem 'rspec', '~> 3.1', groups: ["development", "test"]
+gem 'rspec-rails', '~> 3.1', groups: ["development", "test"]
+gem 'shoulda', '~> 3.5', groups: ["test"]
+gem 'sidekiq', '~> 3.2'
+gem 'slim-rails', '~> 2.1'
+gem 'unicorn', '~> 4.8'
