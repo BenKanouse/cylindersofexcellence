@@ -43,6 +43,15 @@ class Stat
     self.file_name = file_name
   end
 
+  def to_json
+    {
+      file_name: file_name,
+      lines_for_person: lines_for_person,
+      person: person,
+      total_lines: total_lines,
+    }.to_json
+  end
+
   def lines_for_person
     @lines_for_person ||= blames_by_user[person]
   end
