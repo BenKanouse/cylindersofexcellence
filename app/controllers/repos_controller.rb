@@ -22,6 +22,6 @@ class ReposController < ApplicationController
   private
 
   def repo_params
-    params.require(:name)
+    params.require(:repo).require(:name)
   end
 end
