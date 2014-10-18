@@ -1,6 +1,8 @@
 class Repo
   attr_accessor :name, :owner_and_name, :url
 
+  def self.recent; []; end
+
   def initialize(owner_and_name)
     self.owner_and_name = owner_and_name
     self.url = "https://github.com/#{owner_and_name}.git"
