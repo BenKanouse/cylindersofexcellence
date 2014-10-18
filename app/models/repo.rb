@@ -3,15 +3,20 @@ class Repo
 
   def self.recent; []; end
 
-  def initialize(owner_and_name)
-    self.owner_and_name = owner_and_name
-    self.url = "https://github.com/#{owner_and_name}.git"
-    self.name = owner_and_name.split('/').last
+  def initialize(owner_and_name = nil)
+    if owner_and_name
+      self.owner_and_name = owner_and_name
+      self.url = "https://github.com/#{owner_and_name}.git"
+      self.name = owner_and_name.split('/').last
+    end
   end
 
   def save; true; end
 
+  def persisted?; false; end
+
   def stats
+    return [] if url.nil?
     clone
     Dir.chdir(clone_path) do
       files.map do |file_name|
