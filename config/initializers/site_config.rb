@@ -2,7 +2,7 @@
 # Idea from http://www.smashingmagazine.com/2009/02/25/ruby-on-rails-tips/.
 
 # Name (identifier) of the project. Generally the same name as the directory containing the project.
-PROJECT_NAME = Rails.root.to_s.split('/').last
+PROJECT_NAME = 'cylinders_of_excellence'
 
 # Override these - they will be used in the default layout.
 SITE_NAME = PROJECT_NAME.humanize.titleize
