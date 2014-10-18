@@ -15,6 +15,10 @@ class Repo
 
   def persisted?; false; end
 
+  def biggest_silos
+    stats.take(5) # FIXME: Need to sort by size of the silos first.
+  end
+
   def stats
     return [] if url.nil?
     clone
