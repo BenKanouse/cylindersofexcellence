@@ -60,7 +60,7 @@ gem 'shoulda', '~> 3.5', groups: ["test"]
 gem 'jasmine', '~> 2.0', groups: ["development", "test"]
 gem 'sidekiq', '~> 3.2'
 gem 'email_spec', '~> 1.6', groups: ["test"]
-gem 'metric_fu', '~> 4.11', groups: ["development", "test"]
+gem 'metric_fu', '~> 4.11', groups: [:development, :test]
 gem 'slim-rails', '~> 2.1'
 gem 'haml', '~> 4.0'
 gem 'rails-footnotes', '~> 4.1', groups: [:development]
