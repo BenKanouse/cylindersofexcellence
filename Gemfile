@@ -67,5 +67,6 @@ gem 'rspec', '~> 3.1', groups: ["development", "test"]
 gem 'rspec-rails', '~> 3.1', groups: ["development", "test"]
 gem 'shoulda', '~> 3.5', groups: ["test"]
 gem 'sidekiq', '~> 3.2'
+gem 'simple_form', '~> 3.0'
 gem 'slim-rails', '~> 2.1'
 gem 'unicorn', '~> 4.8'
