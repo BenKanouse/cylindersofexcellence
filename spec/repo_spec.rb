@@ -23,7 +23,7 @@ describe Repo do
   end
 
   describe "to_json" do
-    subject { JSON.parse(first_stat.to_json) }
+    subject { first_stat.as_json }
     specify { expect(subject["file_name"]).to eq(file_to_blame) }
     specify { expect(subject["lines_for_person"]).to eq(36) }
     specify { expect(subject["person"]).to eq("kanobt61@gmail.com") }

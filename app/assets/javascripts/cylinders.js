@@ -2,6 +2,11 @@ $( document ).ready(function() {
 
   init();
 
+  function stats() {
+    var repoJSON = $("#repo_json").html();
+    return $.parseJSON(repoJSON);
+  }
+
   function createCylinder(width, height, x) {
     var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(width/3, width/3, height, 30, 1, false), new THREE.MeshPhongMaterial({
       // light
@@ -17,14 +22,21 @@ $( document ).ready(function() {
   }
 
   function addCylinders(scene) {
+    var statData = stats();
     var cylinderWidth = windowWidth() / 10;
     console.log("Window width: " + windowWidth());
     console.log("Cylinder width: " + cylinderWidth);
-    var cylinder1 = createCylinder(cylinderWidth, 20, -2 * cylinderWidth);
-    var cylinder2 = createCylinder(cylinderWidth, 100, -cylinderWidth);
-    var cylinder3 = createCylinder(cylinderWidth, 75, 0);
-    var cylinder4 = createCylinder(cylinderWidth, 250, cylinderWidth);
-    var cylinder5 = createCylinder(cylinderWidth, 160, 2 * cylinderWidth);
+    var maxLines = statData[0].lines_for_person;
+    var scalar = 300/maxLines;
+    var cylinder1 = createCylinder(cylinderWidth, scalar * statData[0].lines_for_person, -2 * cylinderWidth);
+    console.log(statData[0].file_name);
+    console.log(statData[0].person);
+    var cylinder2 = createCylinder(cylinderWidth, scalar * statData[1].lines_for_person, -cylinderWidth);
+    console.log(statData[1].file_name);
+    console.log(statData[0].person);
+    var cylinder3 = createCylinder(cylinderWidth, scalar * statData[2].lines_for_person, 0);
+    var cylinder4 = createCylinder(cylinderWidth, scalar * statData[3].lines_for_person, cylinderWidth);
+    var cylinder5 = createCylinder(cylinderWidth, scalar * statData[4].lines_for_person, 2 * cylinderWidth);
 
     cylinder.overdraw = false;
     scene.add(cylinder1);
@@ -35,7 +47,7 @@ $( document ).ready(function() {
   }
 
   function windowWidth() {
-    return window.innerWidth - (window.innerWidth / 10);
+    return(window.innerWidth - (window.innerWidth / 8));
   }
 
   function init() {
@@ -45,7 +57,7 @@ $( document ).ready(function() {
     document.getElementById("cylinder").appendChild(renderer.domElement);
 
     var camera = new THREE.PerspectiveCamera(30, windowWidth() / window.innerHeight, 2, 1000);
-    camera.position.z = 700;
+    camera.position.z = 900;
 
     var scene = new THREE.Scene();
     addCylinders(scene);

@@ -45,13 +45,13 @@ class Stat
     self.file_name = file_name
   end
 
-  def to_json
+  def as_json(options = nil)
     {
       file_name: file_name,
       lines_for_person: lines_for_person,
       person: person,
       total_lines: total_lines,
-    }.to_json
+    }.as_json
   end
 
   def lines_for_person
