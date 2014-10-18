@@ -4,3 +4,9 @@ ul
     ' Name:
     = @repo.name
 
+ul
+  - @repo.stats.each do |stat|
+    li
+      ' Name:
+      = stat.person
+

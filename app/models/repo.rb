@@ -7,11 +7,13 @@ class Repo
     self.name = owner_and_name.split('/').last
   end
 
+  def save; true; end
+
   def stats
     clone
-    Dir.chdir("tmp/#{name}") do
-      files.map do |file|
-        Stat.new(file) unless File.zero?(file)
+    Dir.chdir(clone_path) do
+      files.map do |file_name|
+        Stat.new(clone_path, file_name) unless File.zero?(file_name)
       end.compact
     end
   end
@@ -25,14 +27,19 @@ class Repo
   def files
     `git ls-files`.split("\n")
   end
+
+  def clone_path
+    "tmp/#{name}"
+  end
 end
 
 class Stat
   USER_REGEX = /\A.*\(<(?<user>.*)>/
 
-  attr_accessor :file_name
+  attr_accessor :dir, :file_name
 
-  def initialize(file_name)
+  def initialize(dir, file_name)
+    self.dir = dir
     self.file_name = file_name
   end
 
@@ -50,8 +57,13 @@ class Stat
 
   private
 
+  def blame
+    Dir.chdir(dir) do
+      @blame ||= `git blame #{file_name} -w -t -e`.encode('UTF-8', invalid: :replace)
+    end
+  end
+
   def blames
-    blame = `git blame #{file_name} -w -t -e`.encode('UTF-8', invalid: :replace)
     blame.split("\n").map { |line| USER_REGEX.match(line)[:user] }
   end
 
