@@ -1,0 +1,7 @@
+test: &test
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  database: cylinders_of_excellence_test
+  password:
+  host: localhost
