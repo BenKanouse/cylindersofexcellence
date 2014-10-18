@@ -1,5 +1,11 @@
 class ReposController < ApplicationController
 
+  def index
+    @new_repo = Repo.new
+    @recent_repos = Repo.recent
+    @recent_repos += [Repo.new("railsrumble/r14-team-290")] # FIXME: Just to have some test data.
+  end
+
   def new
     @repo = Repo.new("A/B")
   end
