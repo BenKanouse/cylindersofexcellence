@@ -8,4 +8,3 @@ cache: bundler
 before_script:
   - cp config/database.yml.travis-ci config/database.yml
   - bundle exec rake db:create:all
-  - bundle exec rake db:schema:load
