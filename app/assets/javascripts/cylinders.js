@@ -59,44 +59,31 @@ $( document ).ready(function() {
     });
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set( 5, 1 );
-    //texture.wrapAround = true;
-    //texture.offset(0.5);
+    texture.repeat.set( 12, 3 );
     var material = new THREE.MeshLambertMaterial({
       map: texture
     });
     addCylinders(scene, material);
 
-  var backgroundTexture = THREE.ImageUtils.loadTexture( 'images/field.jpg', {}, function() {
-    renderer.render(scene, camera);
-  });
-  var backgroundMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 0),
-      new THREE.MeshLambertMaterial({
+    var backgroundTexture = THREE.ImageUtils.loadTexture( 'images/field.jpg', {}, function() {
+      renderer.render(scene, camera);
+    });
+    var backgroundMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 0),
+        new THREE.MeshLambertMaterial({
           map: backgroundTexture
-      }));
-  backgroundMesh.position.y = 100;
-  backgroundMesh.material.depthTest = false;
-  backgroundMesh.material.depthWrite = false;
-  scene.add(backgroundMesh);
+        }));
+    backgroundMesh.position.y = 100;
+    backgroundMesh.material.depthTest = false;
+    backgroundMesh.material.depthWrite = false;
+    scene.add(backgroundMesh);
 
-    // // add subtle ambient lighting
-    // var ambientLight = new THREE.AmbientLight(0x222222);
-    // scene.add(ambientLight);
-    //
-    // // directional lighting
-    // var directionalLight = new THREE.DirectionalLight(0xffffff);
-    // directionalLight.position.set(1, 1, 1).normalize();
+    var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+    scene.add(ambientLight);
 
-      // add subtle ambient lighting
-      var ambientLight = new THREE.AmbientLight(0xbbbbbb);
-      scene.add(ambientLight);
-
-      // directional lighting
-      var directionalLight = new THREE.DirectionalLight(0xffffff);
-      directionalLight.position.set(1, 1, 1).normalize();
-      scene.add(directionalLight);
-
+    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(1, 1, 1).normalize();
+    scene.add(directionalLight);
 
     scene.add(directionalLight);
   }
