@@ -30,26 +30,35 @@ end
 class Stat
   USER_REGEX = /\A.*\(<(?<user>.*)>/
 
-  attr_accessor :file_name, :person, :lines_for_person, :total_lines
+  attr_accessor :file_name
 
   def initialize(file_name)
     self.file_name = file_name
-    summarize_blame
   end
 
-  def blame_file
-    `git blame #{file_name} -w -t -e`.encode('UTF-8', invalid: :replace)
+  def lines_for_person
+    @lines_for_person ||= blames_by_user[person]
   end
 
-  def summarize_blame
-    blame_array = blame_file.split("\n")
-    user_array = blame_array.map { |line| USER_REGEX.match(line)[:user] }
-    by_user = user_array.inject(Hash.new(0)) do |hash, val|
+  def person
+    @person ||= blames_by_user.max_by(&:last).first
+  end
+
+  def total_lines
+    @total_lines ||= blames.size
+  end
+
+  private
+
+  def blames
+    blame = `git blame #{file_name} -w -t -e`.encode('UTF-8', invalid: :replace)
+    blame.split("\n").map { |line| USER_REGEX.match(line)[:user] }
+  end
+
+  def blames_by_user
+    @by_user ||= blames.inject(Hash.new(0)) do |hash, val|
       hash[val] += 1
       hash
     end
-    self.person = by_user.max_by(&:last).first
-    self.lines_for_person = by_user[person]
-    self.total_lines = blame_array.size
   end
 end
