@@ -32,7 +32,8 @@ $( document ).ready(function() {
 
   init();
 
-  currentTextObjects = []
+  currentTextObjects = [];
+  currentTextBoxObject = null;
 
   function unsetCurrentText() {
     currentTextObjects.forEach(function(object) {
@@ -43,6 +44,12 @@ $( document ).ready(function() {
   }
 
   var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
+
+  function unsetTextBox() {
+    scene.remove(currentTextBoxObject);
+    currentTextBoxObject = null;
+    reRender();
+  }
 
   function createTextObject(text, lineNumber) {
     font = {
@@ -55,6 +62,16 @@ $( document ).ready(function() {
     currentMesh.position.set(75, 100 - (lineNumber * 10), 0.5 * cylinderWidth() + 5);
     currentTextObjects.push(currentMesh);
     scene.add(currentMesh);
+  }
+
+  function createTextBoxObject(){
+    var textBoxMaterial = new THREE.MeshBasicMaterial({color: "#ffffff"});
+    currentTextBoxObject = new THREE.Mesh( new THREE.PlaneGeometry(0.5 * windowWidth(), 0.25 * windowHeight(), 1, 1), textBoxMaterial);
+    currentTextBoxObject.position.set(0.25 * windowWidth(), .5 * .5 * windowHeight(), 0.5 * cylinderWidth() + 3);
+    currentTextBoxObject.material.depthTest = true;
+    currentTextBoxObject.material.depthWrite = true;
+    scene.add(currentTextBoxObject)
+    reRender();
   }
 
   function setCurrentText(metaData) {
@@ -85,22 +102,20 @@ $( document ).ready(function() {
       var metaData = intersects[0].object.metaData;
       if (currentFileName != metaData.file_name) {
         currentFileName = metaData.file_name;
+        createTextBoxObject();
         setCurrentText(metaData);
       }
     } else {
       unsetCurrentText();
       currentFileName = undefined;
+      unsetTextBox();
     }
-
   }
 
   function onWindowResize(){
-
       camera.aspect = windowWidth() / windowHeight();
       camera.updateProjectionMatrix();
-
       renderer.setSize(windowWidth(), windowHeight());
-
   }
 
   function init() {
@@ -204,7 +219,6 @@ $( document ).ready(function() {
   }
 
   function renderSilos(data) {
-
     cylinderElement().appendChild(renderer.domElement);
 
     var siloSiding = siloSidingMaterial(scene, camera);
@@ -232,7 +246,6 @@ $( document ).ready(function() {
     scene.add(directionalLight);
 
     scene.add(directionalLight);
-
     $('#ajax-wait').remove();
   }
 });
