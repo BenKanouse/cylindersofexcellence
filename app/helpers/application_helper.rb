@@ -60,10 +60,9 @@ module ApplicationHelper
   end
 
   def show_repo_button(repo)
-    button_params = { repo: { owner_and_name: repo.owner_and_name } }
-    options = { action: "create", controller: "repos", params: button_params }
+    url = "/repos/#{repo.owner}/#{repo.name}"
     html_options = { class: 'btn btn-link btn-lg repo-show' }
-    button_to(repo.owner_and_name, options, html_options)
+    button_to(repo.owner_and_name, url, html_options)
   end
 
   def table_bones(options = {}, &block)
