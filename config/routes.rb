@@ -1,12 +1,10 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root to: 'repos#index', as: 'home'
-
+  get 'repos/:owner/:name' => 'repos#show'
   resources :repos
 
   mount Sidekiq::Web => '/sidekiq'
-
-  get 'repos/:owner/:name' => 'repos#show'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
