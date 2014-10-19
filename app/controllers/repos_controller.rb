@@ -12,7 +12,7 @@ class ReposController < ApplicationController
   def create
     @repo = Repo.new(repo_params)
     if @repo.save
-      # redirect_to @repo
+      flash[:notice] = "Loaded data for #{@repo.owner_and_name}"
       render :show
     else
       render :new

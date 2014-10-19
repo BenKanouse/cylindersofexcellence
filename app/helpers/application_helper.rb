@@ -27,7 +27,7 @@ module ApplicationHelper
 
   def page_header(title, &block)
     content_tag(:div, :class => 'page-header') do
-      content_tag(:h1) do
+      content_tag(:h2) do
         content = block_given? ? content_tag(:small) { yield } : ActiveSupport::SafeBuffer.new
         ActiveSupport::SafeBuffer.new("#{title}".to_s.titlecase) + content
       end

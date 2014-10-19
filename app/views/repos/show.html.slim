@@ -1,15 +1,22 @@
-== page_header('Repo')
+== page_header('Knowlege Silos')
 
-#cylinder
+center
+  #cylinder
 
-div.list-group
-  h4.list-group-item-heading
-    = @repo.name
-  ul.list-group
+h3
+  'Repository Details
+
+== panel(@repo.owner_and_name) do
+  == table_bones do
+    tr
+      th = 'File Name'
+      th = 'Resource'
+      th = 'Lines For Person'
     - @repo.silos.each do |silo|
-      li.list-group-item
-        'Name:
-        = silo.person
+      tr
+        td = silo.file_name
+        td = silo.person
+        td = silo.lines_for_person
 
 <script id="repo_json" type="text/json">
   = raw @repo.biggest_silos.to_json
