@@ -68,6 +68,14 @@ describe ApplicationHelper do
 
   end
 
+  context 'show_repo_button' do
+    let(:repo) { Repo.new('railsrumble/r14-team-290') }
+    it 'will link to the new action for repos with name param' do
+      button = show_repo_button(repo)
+      expect(button).to eq( "<form action=\"/repos?repo%5Bname%5D=railsrumble%2Fr14-team-290\" class=\"button_to\" method=\"post\"><input class=\"btn btn-link btn-lg repo-show\" type=\"submit\" value=\"railsrumble/r14-team-290\" /></form>")
+    end
+  end
+
   context 'table_bones' do
 
     it 'should create a table' do
