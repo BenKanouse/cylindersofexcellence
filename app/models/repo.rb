@@ -17,11 +17,12 @@ class Repo
 
   def persisted?; false; end
 
+  # The biggest silo is the file that has the most lines written by a single user.
   def biggest_silos
-    stats.take(5) # FIXME: Need to sort by size of the silos first.
-  end
+    silos.sort_by!(&:lines_for_person).reverse.first(5)
+   end
 
-  def stats
+  def silos
     return [] if url.nil?
     if File.directory?(clone_path)
       refresh_repo
@@ -30,7 +31,7 @@ class Repo
     end
     Dir.chdir(clone_path) do
       files.map do |file_name|
-        Stat.new(clone_path, file_name) unless File.zero?(file_name)
+        Silo.new(clone_path, file_name) unless File.zero?(file_name)
       end.compact
     end
   end
@@ -54,7 +55,7 @@ class Repo
   end
 end
 
-class Stat
+class Silo
   USER_REGEX = /\A.*\(<(?<user>.*)>/
 
   attr_accessor :dir, :file_name

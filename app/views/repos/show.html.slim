@@ -6,11 +6,11 @@ div.list-group
   h4.list-group-item-heading
     = @repo.name
   ul.list-group
-    - @repo.stats.each do |stat|
+    - @repo.silos.each do |silo|
       li.list-group-item
         'Name:
-        = stat.person
+        = silo.person
 
 <script id="repo_json" type="text/json">
-  = raw @stats.to_json
+  = raw @repo.biggest_silos.to_json
 </script>
