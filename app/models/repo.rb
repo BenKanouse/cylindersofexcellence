@@ -62,7 +62,7 @@ end
 
 # A silo represents a file, along with its top author, number of lines by that author, and total number of lines.
 class Silo
-  USER_REGEX = /\A.*\(<(?<user>.*?)>/
+  USER_REGEX = /\A.{10}(?<user>.*)\s*\d{10}\s*-?\d{4}\s*\d*\)/
 
   attr_accessor :dir, :file_name
 
@@ -96,12 +96,12 @@ class Silo
 
   def blame
     Dir.chdir(dir) do
-      @blame ||= `git blame #{file_name} -w -t -e`.encode('UTF-8', invalid: :replace)
+      @blame ||= `git blame #{file_name} -w -t`.encode('UTF-8', invalid: :replace)
     end
   end
 
   def blames
-    blame.split("\n").map { |line| USER_REGEX.match(line)[:user] }
+    blame.split("\n").map { |line| USER_REGEX.match(line)[:user].strip }
   end
 
   def blames_by_user

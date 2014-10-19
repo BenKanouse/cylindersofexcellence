@@ -17,7 +17,8 @@ describe Repo do
 
   describe "#silos" do
     subject { first_silo }
-    specify { expect(subject.person).to eq("kanobt61@gmail.com") }
+#    specify { expect(subject.person).to eq("kanobt61@gmail.com") }
+    specify { expect(subject.person).to eq("BenKanouse") }
     specify { expect(subject.lines_for_person).to eq(36) }
     specify { expect(subject.total_lines).to eq(41) }
   end
@@ -26,7 +27,8 @@ describe Repo do
     subject { first_silo.as_json }
     specify { expect(subject["file_name"]).to eq(file_to_blame) }
     specify { expect(subject["lines_for_person"]).to eq(36) }
-    specify { expect(subject["person"]).to eq("kanobt61@gmail.com") }
+#    specify { expect(subject["person"]).to eq("kanobt61@gmail.com") }
+    specify { expect(subject["person"]).to eq("BenKanouse") }
     specify { expect(subject["total_lines"]).to eq(41) }
   end
 end
