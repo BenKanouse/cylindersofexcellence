@@ -1,0 +1,15 @@
+- repo_file_path = "https://github.com/#{name}/blame/master/"
+
+== table_bones do
+  tr
+    th = 'File Name'
+    th = 'Resource Name'
+    th = 'Lines For Person'
+    th = '% of file'
+
+  - silos.each do |silo|
+    tr
+      td = link_to silo.file_name, repo_file_path + silo.file_name, target: '_blank'
+      td = silo.person
+      td = silo.lines_for_person
+      td = silo.percent_of_lines

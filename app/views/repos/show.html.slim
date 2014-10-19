@@ -12,18 +12,7 @@ h3
   'Repository Details
 
 == panel(@repo.owner_and_name) do
-  == table_bones do
-    tr
-      th = 'File Name'
-      th = 'Resource'
-      th = 'Lines For Person'
-      th = '% of file'
-    - @repo.silos.each do |silo|
-      tr
-        td = silo.file_name
-        td = silo.person
-        td = silo.lines_for_person
-        td = silo.percent_of_lines
+  == render partial: 'silos_summary', :locals => { name: @repo.owner_and_name, silos: @repo.silos }
 
 <script id="repo_json" type="text/json">
   = raw @repo.biggest_silos.to_json
