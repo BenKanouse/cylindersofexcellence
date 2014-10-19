@@ -1,10 +1,14 @@
-li
-  p
-    = repo.owner_and_name
-  p
-    table
-      - repo.biggest_silos.each do |silo|
-        tr
-          td = silo.file_name
-          td = silo.person
-          td = silo.lines_for_person
+p.lead
+  = repo.owner_and_name
+
+== table_bones do
+  tr
+    th = 'File Name'
+    th = 'Person'
+    th = 'Lines For Person'
+
+  - repo.biggest_silos.each do |silo|
+    tr
+      td = silo.file_name
+      td = silo.person
+      td = silo.lines_for_person

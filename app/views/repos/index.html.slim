@@ -1,8 +1,7 @@
-h1 Analyze a Repo
+== page_header('Analyze a Repo')
 
 == render 'form', repo: @new_repo
 
-h1 Recent Repos
-
-ul
+== panel('Recent Repos')  do
   == render partial: 'summary', collection: @recent_repos, as: :repo
+

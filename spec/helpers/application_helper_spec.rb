@@ -34,4 +34,49 @@ describe ApplicationHelper do
 
   end
 
+  context 'page_header' do
+
+    it 'should create a page header' do
+      header = page_header('test header')
+      expect(header).to eq('<div class="page-header"><h1>Test Header</h1></div>')
+    end
+
+    it 'should create a page header with a sub header attached' do
+      header =  page_header('test header') do
+        "test sub header"
+      end
+      expect(header).to eq('<div class="page-header"><h1>Test Header<small>test sub header</small></h1></div>')
+    end
+
+  end
+
+  context 'panel' do
+
+    it 'should create a panel with the default class' do
+      panel = panel('Test panel') do
+        "This is a test panel"
+      end
+      expect(panel).to eq('<div class="panel panel-default"><div class="panel-heading">Test panel</div><div class="panel-body">This is a test panel</div></div>')
+    end
+
+    it 'should create a panel with the danger class' do
+      panel = panel('Test panel', class: 'panel-danger') do
+        "This is a test panel"
+      end
+      expect(panel).to eq('<div class="panel panel-danger"><div class="panel-heading">Test panel</div><div class="panel-body">This is a test panel</div></div>')
+    end
+
+  end
+
+  context 'table_bones' do
+
+    it 'should create a table' do
+      table = table_bones do
+        "<tr><td>cell</td></tr>".html_safe
+      end
+      expect(table).to eq('<table class="table table-bordered table-striped table-hover"><tbody><tr><td>cell</td></tr></tbody></table>')
+    end
+
+  end
+
 end
