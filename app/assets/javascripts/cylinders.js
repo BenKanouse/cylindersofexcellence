@@ -45,13 +45,13 @@ $( document ).ready(function() {
   function createTextObject(text, lineNumber) {
     font = {
       size: 8,
-      height: 0,
+      height: 1,
       weight: 'normal'
     }
     var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
     var currentText = new THREE.TextGeometry(text, font);
     var currentMesh = new THREE.Mesh(currentText, textMaterial);
-    currentMesh.position.set(100, 100 - (lineNumber * 10), 0.5 * cylinderWidth() + 5);
+    currentMesh.position.set(75, 100 - (lineNumber * 10), 0.5 * cylinderWidth() + 5);
     currentTextObjects.push(currentMesh);
     scene.add(currentMesh);
     reRender();
@@ -60,7 +60,8 @@ $( document ).ready(function() {
   function setCurrentText(metaData) {
     unsetCurrentText();
     createTextObject("It looks like " + metaData.person + " is a knowledge silo!", 1);
-    createTextObject("No one else knows " + metaData.file_name + " like they do!", 2);
+    createTextObject("They've committed " + metaData.lines_for_person + " out of " + metaData.total_lines + " lines!", 2);
+    createTextObject("That's " + metaData.percent_of_lines + " of the file!", 3);
   }
 
   function onMouseMove(event) {
