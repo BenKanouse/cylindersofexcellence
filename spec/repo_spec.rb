@@ -12,7 +12,7 @@ describe Repo do
 
   it 'clones the repo' do
     repo.silos
-    expect(Dir.exists?("tmp/r14-team-290")).to be(true)
+    expect(Dir.exists?("tmp/repos/railsrumble/r14-team-290")).to be(true)
   end
 
   describe "#silos" do

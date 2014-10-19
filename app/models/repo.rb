@@ -1,7 +1,7 @@
 class Repo
   REPO_ROOT = File.join(Rails.root, "tmp", "repos")
 
-  attr_accessor :name, :owner_and_name, :url
+  attr_accessor :owner, :name, :owner_and_name, :url
 
   def self.recent; []; end
 
@@ -9,6 +9,7 @@ class Repo
     if owner_and_name
       self.owner_and_name = owner_and_name
       self.url = "https://github.com/#{owner_and_name}.git"
+      self.owner = owner_and_name.split('/').first
       self.name = owner_and_name.split('/').last
     end
   end
@@ -37,7 +38,7 @@ class Repo
   end
 
   def clone_repo
-    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && git clone -q #{url}`
+    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT}; mkdir -p #{owner}; cd #{owner}; git clone -q #{url}`
   end
 
   def refresh_repo
@@ -51,10 +52,12 @@ class Repo
   end
 
   def clone_path
-    File.join(REPO_ROOT, name)
+    File.join(REPO_ROOT, owner, name)
   end
 end
 
+
+# A silo represents a file, along with its top author, number of lines by that author, and total number of lines.
 class Silo
   USER_REGEX = /\A.*\(<(?<user>.*)>/
 
