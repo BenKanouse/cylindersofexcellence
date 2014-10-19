@@ -31,20 +31,25 @@ $( document ).ready(function() {
     reRender();
   }
 
-  function setCurrentText(metaData) {
-    unsetCurrentText();
+  function createTextObject(text, lineNumber) {
     font = {
       size: 8,
       height: 0,
       weight: 'normal'
     }
     var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
-    var currentText = new THREE.TextGeometry(metaData.person, font);
-    var currentSpeechBubble = new THREE.Mesh(currentText, textMaterial);
-    currentSpeechBubble.position.set(100, 100, 0.5 * cylinderWidth() + 10);
-    currentTextObjects.push(currentSpeechBubble);
-    scene.add(currentSpeechBubble);
+    var currentText = new THREE.TextGeometry(text, font);
+    var currentMesh = new THREE.Mesh(currentText, textMaterial);
+    currentMesh.position.set(100, 100 - (lineNumber * 10), 0.5 * cylinderWidth() + 5);
+    currentTextObjects.push(currentMesh);
+    scene.add(currentMesh);
     reRender();
+  }
+
+  function setCurrentText(metaData) {
+    unsetCurrentText();
+    createTextObject("It looks like " + metaData.person + " is a knowledge silo!", 1);
+    createTextObject("No one else knows " + metaData.file_name + " like they do!", 2);
   }
 
   function onMouseMove(event) {
