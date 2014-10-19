@@ -223,5 +223,7 @@ $( document ).ready(function() {
     scene.add(directionalLight);
 
     scene.add(directionalLight);
+
+    $('#ajax-wait').remove();
   }
 });
