@@ -38,7 +38,7 @@ class Repo
 
   # The biggest silo is the file that has the most lines written by a single user.
   def biggest_silos
-    silos.sort_by!(&:lines_for_person).reverse.first(5)
+    silos.reverse.first(5)
    end
 
   def clone_path
@@ -52,7 +52,7 @@ class Repo
     Dir.chdir(clone_path) do
       files.map do |file_name|
         Silo.new(clone_path, file_name) unless File.zero?(file_name)
-      end.compact
+      end.compact.sort_by(&:lines_for_person)
     end
   end
 
