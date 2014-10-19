@@ -42,6 +42,7 @@
     <!-- Include all other JavaScript files. If production, minimize and combine into a single file. -->
     <%= javascript_include_tag "application", "data-turbolinks-track" => false %>
     <%= javascript_include_tag 'boochtek/google-analytics' if GOOGLE_ANALYTICS_CODE %>
+    <script src="http://mrdoob.github.com/three.js/examples/fonts/helvetiker_regular.typeface.js"></script>
 
     <!-- Make sure we're not subject to CSRF attacks. -->
     <%= csrf_meta_tags %>
