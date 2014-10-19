@@ -5,10 +5,6 @@ class ReposController < ApplicationController
     @recent_repos = Repo.recent
   end
 
-  def new
-    @repo = Repo.new("A/B")
-  end
-
   def create
     @repo = Repo.new(repo_params)
     if @repo.save
