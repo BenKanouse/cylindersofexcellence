@@ -110,7 +110,11 @@ class Silo
   end
 
   def blames
-    blame.split("\n").map { |line| USER_REGEX.match(line)[:user].strip }
+    blame.split("\n").map do |line|
+      USER_REGEX.match(line) do |match|
+        match[:user].strip
+      end
+    end.compact
   end
 
   def blames_by_user
