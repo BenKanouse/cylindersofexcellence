@@ -3,11 +3,6 @@
 center
   #cylinder
 
-ul.list-group
-    li.list-group-item#xy
-    li.list-group-item#person
-    li.list-group-item#file_name
-
 h3
   'Repository Details
 
@@ -15,5 +10,5 @@ h3
   == render partial: 'silos_summary', :locals => { name: @repo.owner_and_name, silos: @repo.silos }
 
 <script id="repo_json" type="text/json">
-  = raw @repo.biggest_silos.to_json
+  = raw @repo.owner_and_name.to_json
 </script>

@@ -67,11 +67,6 @@ $( document ).ready(function() {
     if (intersects.length > 0) {
       var metaData = intersects[0].object.metaData;
       setCurrentText(metaData);
-
-      var element = document.getElementById("person");
-      element.innerText = metaData.person;
-      var element = document.getElementById("file_name");
-      element.innerText = metaData.file_name;
     } else {
       unsetCurrentText();
     }
@@ -87,7 +82,21 @@ $( document ).ready(function() {
 
   }
 
-  function stats() {
+  function init() {
+    $.ajax({
+      url: "repos/" + ownerAndName() + ".json",
+      success: function(data) {
+        if (data.length == 0) {
+          setTimeout(init, 2000);
+        } else {
+          renderSilos(data);
+        }
+      },
+      async: false
+    });
+  }
+
+  function ownerAndName() {
     var repoJSON = $("#repo_json").html();
     return $.parseJSON(repoJSON);
   }
@@ -132,8 +141,7 @@ $( document ).ready(function() {
     return windowWidth() / 7;
   }
 
-  function addCylinders(scene, siloSiding, siloRoof) {
-    var statData = stats();
+  function addCylinders(statData, scene, siloSiding, siloRoof) {
     var maxLines = statData[0].lines_for_person;
     var scalar = (0.5 * windowHeight() )/maxLines;
 
@@ -168,13 +176,13 @@ $( document ).ready(function() {
     return new THREE.MeshPhongMaterial();
   }
 
-  function init() {
+  function renderSilos(data) {
 
     cylinderElement().appendChild(renderer.domElement);
 
     var siloSiding = siloSidingMaterial(scene, camera);
     var siloRoof = siloRoofMaterial(scene, camera);
-    addCylinders(scene, siloSiding, siloRoof);
+    addCylinders(data, scene, siloSiding, siloRoof);
 
     var backgroundTexture = THREE.ImageUtils.loadTexture( 'images/field.jpg', {}, function() {
       reRender();
