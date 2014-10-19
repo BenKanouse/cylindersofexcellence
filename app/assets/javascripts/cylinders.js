@@ -9,17 +9,20 @@ $( document ).ready(function() {
   var projector = new THREE.Projector();
   var objects = [];
 
+  function cylinderElement() {
+    return document.getElementById("cylinder");
+  }
+
   init();
-  document.getElementById("cylinder").addEventListener( 'mousedown', onDocumentMouseDown, false );
+
+  cylinderElement().addEventListener( 'mousedown', onDocumentMouseDown, false );
   window.addEventListener( 'resize', onWindowResize, false );
 
   function onDocumentMouseDown(event) {
-    console.log("X: " + event.clientX);
-    console.log("Y: " + event.clientY);
     event.preventDefault();
     var vector = new THREE.Vector3(
-        ( (event.clientX - 231) / windowWidth() ) * 2 - 1,
-      - ( (event.clientY - 181) / windowHeight() ) * 2 + 1,
+        ( (event.clientX - cylinderElement().offsetLeft) / windowWidth() ) * 2 - 1,
+      - ( (event.clientY - cylinderElement().offsetTop) / windowHeight() ) * 2 + 1,
         0.5
     );
     projector.unprojectVector( vector, camera );
@@ -119,7 +122,7 @@ $( document ).ready(function() {
 
   function init() {
 
-    document.getElementById("cylinder").appendChild(renderer.domElement);
+    cylinderElement().appendChild(renderer.domElement);
 
     var siloSiding = siloSidingMaterial(scene, camera);
     var siloRoof = siloRoofMaterial(scene, camera);
