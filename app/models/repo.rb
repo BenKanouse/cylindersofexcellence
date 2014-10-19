@@ -1,4 +1,6 @@
 class Repo
+  REPO_ROOT = File.join(Rails.root, "tmp", "repos")
+
   attr_accessor :name, :owner_and_name, :url
 
   def self.recent; []; end
@@ -21,7 +23,11 @@ class Repo
 
   def stats
     return [] if url.nil?
-    clone
+    if File.directory?(clone_path)
+      refresh_repo
+    else
+      clone_repo
+    end
     Dir.chdir(clone_path) do
       files.map do |file_name|
         Stat.new(clone_path, file_name) unless File.zero?(file_name)
@@ -29,8 +35,12 @@ class Repo
     end
   end
 
-  def clone
-    `cd tmp && git clone #{url}`
+  def clone_repo
+    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && git clone #{url}`
+  end
+
+  def refresh_repo
+    `cd #{clone_path} && git fetch && git rebase`
   end
 
   private
@@ -40,7 +50,7 @@ class Repo
   end
 
   def clone_path
-    "tmp/#{name}"
+    File.join(REPO_ROOT, name)
   end
 end
 
