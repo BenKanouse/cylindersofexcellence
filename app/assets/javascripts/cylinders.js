@@ -32,15 +32,13 @@ $( document ).ready(function() {
 
   init();
 
-  cylinderElement().addEventListener('mousemove', onMouseMove, false );
-  window.addEventListener('resize', onWindowResize, false );
-
   currentTextObjects = []
 
   function unsetCurrentText() {
     currentTextObjects.forEach(function(object) {
       scene.remove(object);
     });
+    currentTextObjects = [];
     reRender();
   }
 
@@ -96,22 +94,28 @@ $( document ).ready(function() {
   }
 
   function init() {
-    $.ajax({
-      url: "repos/" + ownerAndName() + ".json",
-      success: function(data) {
+    var owner = ownerAndName();
+    if (owner) {
+      $.get("repos/" + ownerAndName() + ".json", function(data) {
         if (data.length == 0) {
           setTimeout(init, 2000);
         } else {
           renderSilos(data);
+          cylinderElement().addEventListener('mousemove', onMouseMove, false );
+          window.addEventListener('resize', onWindowResize, false );
+          return true;
         }
-      },
-      async: false
-    });
+      });
+    } else {
+      return false
+    }
   }
 
   function ownerAndName() {
     var repoJSON = $("#repo_json").html();
-    return $.parseJSON(repoJSON);
+    if (repoJSON) {
+      return $.parseJSON(repoJSON);
+    }
   }
 
   function createCap(siloHeight, x, material) {
