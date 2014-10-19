@@ -1,7 +1,9 @@
 - button_params = { repo: { name: repo.owner_and_name } }
 - options = { action: "create", controller: "repos", params: button_params }
 - html_options = { class: 'btn btn-link btn-lg repo-show' }
+- repo_file_path = "https://github.com/#{repo.owner_and_name}/blame/master/"
 == button_to repo.owner_and_name, options, html_options
+
 
 == table_bones do
   tr
@@ -11,6 +13,6 @@
 
   - repo.biggest_silos.each do |silo|
     tr
-      td = silo.file_name
+      td = link_to silo.file_name, repo_file_path + silo.file_name, target: '_blank'
       td = silo.person
       td = silo.lines_for_person
