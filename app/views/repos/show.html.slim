@@ -1,17 +1,15 @@
-h1 Repo
+== page_header('Repo')
 
 #cylinder
 
-ul
-  li
-    ' Name:
+div.list-group
+  h4.list-group-item-heading
     = @repo.name
-
-ul
-  - @repo.stats.each do |stat|
-    li
-      ' Name:
-      = stat.person
+  ul.list-group
+    - @repo.stats.each do |stat|
+      li.list-group-item
+        'Name:
+        = stat.person
 
 <script id="repo_json" type="text/json">
   = raw @stats.to_json

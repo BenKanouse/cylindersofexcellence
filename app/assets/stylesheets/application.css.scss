@@ -1,4 +1,23 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body {
+  background: #fff asset-url("debut_light.png", image);
+}
+
+.footer {
+  border-top: 1px solid;
+}
+
+.navbar-brand {
+  font-size: 21px;
+  font-weight: 400;
+  color: #a66a4f;
+}
+
+.footer, .navbar-default {
+  background-color: #dfdfdf;
+  border-color: #666;
+}
+
 .simple_form { margin-bottom: 30px; }
