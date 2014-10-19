@@ -36,7 +36,7 @@ class Repo
   end
 
   def clone_repo
-    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && git clone #{url}`
+    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && git clone -q #{url}`
   end
 
   def refresh_repo
