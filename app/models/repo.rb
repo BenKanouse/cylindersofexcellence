@@ -4,7 +4,7 @@ class Repo
   attr_accessor :owner, :name, :owner_and_name, :url, :user_avatars
 
   def self.recent
-    `cd #{REPO_ROOT} && ls -1trd */* | tail -5`.lines.map(&:chomp).map{|repo| new(repo)}.reverse
+    `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && ls -1trd */* | tail -5`.lines.map(&:chomp).map{|repo| new(repo)}.reverse
     # TODO: Delete repos that are not top 5 that are older than some period of time, to free up disk space.
   end
 
@@ -48,7 +48,7 @@ class Repo
   end
 
   def refresh_repo
-    `cd #{clone_path} && git fetch && git rebase`
+    `cd #{clone_path} && git fetch && git rebase origin/master`
   end
 
   private
