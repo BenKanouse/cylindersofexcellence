@@ -1,7 +1,7 @@
 class Repo
   REPO_ROOT = File.join(Rails.root, "tmp", "repos")
 
-  attr_accessor :owner, :name, :owner_and_name, :url
+  attr_accessor :owner, :name, :owner_and_name, :url, :user_avatars
 
   def self.recent
     `cd #{REPO_ROOT} && ls -1trd */* | tail -5`.lines.map(&:chomp).map{|repo| new(repo)}.reverse
@@ -14,6 +14,9 @@ class Repo
       self.url = "https://github.com/#{owner_and_name}.git"
       self.owner = owner_and_name.split('/').first
       self.name = owner_and_name.split('/').last
+      # This will work once we fix this error...
+      # GET https://api.github.com/repos/railsrumble/r14-team-290/contributors: 403 API rate limit exceeded for 73.38.15.222. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)
+      # set_user_avatars
     end
   end
 
@@ -57,6 +60,12 @@ class Repo
   def clone_path
     File.join(REPO_ROOT, owner, name)
   end
+
+  def set_user_avatars
+    self.user_avatars = {}
+    Github::Client::Repos.new(user: owner, repo: name).contributors.body.each{ |user_body| user_avatars[user_body.login] = user_body.avatar_url }
+  end
+
 end
 
 

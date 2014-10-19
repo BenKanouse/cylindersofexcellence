@@ -57,6 +57,7 @@ gem 'cucumber-rails', '~> 1.4', groups: ["test"], require: false
 gem 'database_cleaner', '~> 1.3', groups: ["test"]
 gem 'email_spec', '~> 1.6', groups: ["test"]
 gem 'factory_girl_rails', '~> 4.4', groups: ["development", "test"]
+gem 'github_api'
 gem 'haml', '~> 4.0'
 gem 'jasmine', '~> 2.0', groups: ["development", "test"]
 gem 'metric_fu', '~> 4.11', groups: [:development, :test]

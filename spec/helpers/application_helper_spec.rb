@@ -38,14 +38,14 @@ describe ApplicationHelper do
 
     it 'should create a page header' do
       header = page_header('test header')
-      expect(header).to eq('<div class="page-header"><h1>Test Header</h1></div>')
+      expect(header).to eq('<div class="page-header"><h2>Test Header</h2></div>')
     end
 
     it 'should create a page header with a sub header attached' do
       header =  page_header('test header') do
         "test sub header"
       end
-      expect(header).to eq('<div class="page-header"><h1>Test Header<small>test sub header</small></h1></div>')
+      expect(header).to eq('<div class="page-header"><h2>Test Header<small>test sub header</small></h2></div>')
     end
 
   end
