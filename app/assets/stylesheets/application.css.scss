@@ -1,9 +1,15 @@
+/*
+ *= require jquery-ui
+ */
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
 body {
   background: #fff asset-url("debut_light.png", image);
 }
+
+.btn-link { padding-left: 0; }
 
 .footer {
   border-top: 1px solid;
@@ -23,7 +29,7 @@ body {
 .repo-show {
   font-size: 21px;
   padding-bottom: 15px;
-  padding-left: 0;
 }
 
 #cylinder, .simple_form { margin-bottom: 30px; }
+

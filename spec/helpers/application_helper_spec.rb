@@ -68,6 +68,13 @@ describe ApplicationHelper do
 
   end
 
+  context 'safari_dialog' do
+    it 'will create the dialog for jquery ui to use' do
+      dialog = safari_dialog
+      expect(dialog).to eq("<div id=\"dialog\" title=\"Please Enable WebGL\"><p>You are missing out on the Awesome... Please enable WebGL for Safari browser</p><a class=\"btn btn-link\" href=\"http://onvert.com/guides/enable-webgl-safari/\" target=\"_blank\">Details</a></div>".html_safe)
+    end
+  end
+
   context 'show_repo_button' do
     let(:repo) { Repo.new('railsrumble/r14-team-290') }
     it 'will link to the new action for repos with name param' do

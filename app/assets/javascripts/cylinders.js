@@ -1,4 +1,17 @@
 $( document ).ready(function() {
+  var is_safari = navigator.userAgent.indexOf("Safari") > -1;
+  if ( is_safari && !Detector.webgl ) {
+    $( "#dialog" ).dialog({
+      modal: true,
+      buttons: {
+        Ok: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  } else {
+    $('#dialog').remove();
+  }
 
   var scene = new THREE.Scene();
   var renderer = new THREE.WebGLRenderer({ alpha: true });

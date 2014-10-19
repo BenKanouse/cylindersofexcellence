@@ -51,6 +51,14 @@ module ApplicationHelper
     end
   end
 
+  def safari_dialog
+    content_tag(:div, id: 'dialog', title: 'Please Enable WebGL') do
+      content_tag(:p) do
+        'You are missing out on the Awesome... Please enable WebGL for Safari browser'
+      end  + dialog_link
+    end
+  end
+
   def show_repo_button(repo)
     button_params = { repo: { name: repo.owner_and_name } }
     options = { action: "create", controller: "repos", params: button_params }
@@ -64,6 +72,12 @@ module ApplicationHelper
         yield
       end
     end
+  end
+
+  private
+
+  def dialog_link
+    link_to 'Details', 'http://onvert.com/guides/enable-webgl-safari/', class: 'btn btn-link', target: '_blank'
   end
 
 end

@@ -63,6 +63,7 @@ gem 'faraday', '~> 0.9'
 gem 'github_api'
 gem 'haml', '~> 4.0'
 gem 'jasmine', '~> 2.0', groups: ["development", "test"]
+gem 'jquery-ui-rails'
 gem 'metric_fu', '~> 4.11', groups: [:development, :test]
 gem 'rack-handlers', '~> 0.7'
 gem 'rails-footnotes', '~> 4.1', groups: [:development]
