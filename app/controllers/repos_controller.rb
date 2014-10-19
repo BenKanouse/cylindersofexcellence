@@ -1,7 +1,7 @@
 class ReposController < ApplicationController
 
   def index
-    @new_repo = Repo.new
+    @repo = Repo.new
     @recent_repos = Repo.recent
   end
 
@@ -11,7 +11,7 @@ class ReposController < ApplicationController
       flash[:notice] = "Loaded data for #{@repo.owner_and_name}"
       render :show
     else
-      render :new
+      render :index
     end
   end
 
@@ -22,6 +22,6 @@ class ReposController < ApplicationController
   private
 
   def repo_params
-    params.require(:repo).require(:name)
+    params.require(:repo).require(:owner_and_name)
   end
 end

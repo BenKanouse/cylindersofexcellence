@@ -1,7 +1,13 @@
 class Repo
+  include ActiveModel::Model
+  include ActiveModel::Validations
+
   REPO_ROOT = File.join(Rails.root, "tmp", "repos")
 
   attr_accessor :owner, :name, :owner_and_name, :url, :user_avatars
+
+  validates :owner_and_name, presence: true, format: { with: %r(\A[-a-zA-Z0-9]{1,39}/[-_a-zA-Z0-9]{1,100}\Z), message: "must be in owner/repo format" }
+  validate :github_repo_exists?
 
   def self.recent
     `mkdir -p #{REPO_ROOT}; cd #{REPO_ROOT} && ls -1trd */* | tail -5`.lines.map(&:chomp).map{|repo| new(repo)}.reverse
@@ -20,12 +26,14 @@ class Repo
     end
   end
 
-  def save; true; end
+  def save
+    valid?
+  end
 
   def persisted?; false; end
 
   def github_repo_exists?
-    Faraday.head(url).status == 200 or errors.add(:owner_and_name, "must point to a valid GitHub repo")
+    Faraday.head("https://github.com/#{owner_and_name}").status == 200 or errors.add(:owner_and_name, "must point to a valid GitHub repo")
   end
 
   # The biggest silo is the file that has the most lines written by a single user.

@@ -1,6 +1,6 @@
 == page_header('Analyze a Repo')
 
-== render 'form', repo: @new_repo
+== render 'form', repo: @repo
 
 == panel('Recent Repos')  do
   == render partial: 'summary', collection: @recent_repos, as: :repo
