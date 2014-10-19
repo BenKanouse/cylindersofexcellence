@@ -3,7 +3,10 @@ class Repo
 
   attr_accessor :owner, :name, :owner_and_name, :url
 
-  def self.recent; []; end
+  def self.recent
+    `cd #{REPO_ROOT} && ls -1trd */* | tail -5`.lines.map(&:chomp).map{|repo| new(repo)}.reverse
+    # TODO: Delete repos that are not top 5 that are older than some period of time, to free up disk space.
+  end
 
   def initialize(owner_and_name = nil)
     if owner_and_name
