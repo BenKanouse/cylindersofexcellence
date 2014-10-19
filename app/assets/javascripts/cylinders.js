@@ -20,10 +20,11 @@ $( document ).ready(function() {
 
   function onDocumentMouseDown(event) {
     event.preventDefault();
+    var twitterBootstrapNavBarMargin = 50;
     var vector = new THREE.Vector3(
-        ( (event.clientX - cylinderElement().offsetLeft) / windowWidth() ) * 2 - 1,
-      - ( (event.clientY - cylinderElement().offsetTop) / windowHeight() ) * 2 + 1,
-        0.5
+        ( (event.clientX - renderer.domElement.offsetLeft) / windowWidth() ) * 2 - 1,
+      - ( (event.clientY - renderer.domElement.offsetTop + twitterBootstrapNavBarMargin) / windowHeight() ) * 2 + 1,
+        1
     );
     projector.unprojectVector( vector, camera );
 
