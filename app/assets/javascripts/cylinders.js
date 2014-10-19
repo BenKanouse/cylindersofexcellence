@@ -43,15 +43,13 @@ $( document ).ready(function() {
     reRender();
   }
 
-<<<<<<< HEAD
   var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
-=======
+
   function unsetTextBox() {
     scene.remove(currentTextBoxObject);
     currentTextBoxObject = null;
     reRender();
   }
->>>>>>> Add text box
 
   function createTextObject(text, lineNumber) {
     font = {
