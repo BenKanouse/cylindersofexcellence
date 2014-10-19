@@ -8,8 +8,9 @@ class ReposController < ApplicationController
   def create
     RepoWorker.perform_async(repo_params[:owner_and_name])
     @repo = Repo.new(repo_params[:owner_and_name])
-    if @repo.save
-      render :show
+    if @repo.valid?
+      @repo.silos # Get the git stuff started.
+      redirect_to "/repos/#{@repo.owner}/#{@repo.name}"
     else
       render :index
     end
