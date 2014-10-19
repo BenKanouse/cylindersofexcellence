@@ -1,4 +1,4 @@
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
+worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3) - 1
 timeout 60 # Heroku won't wait any longer than this anyway.
 preload_app true
 
@@ -10,7 +10,7 @@ before_fork do |server, worker|
 
   defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
 
-   @sidekiq_pid ||= spawn("bundle exec sidekiq -c 2")
+  @sidekiq_pid ||= spawn("bundle exec sidekiq -c 1")
 end
 
 after_fork do |server, worker|
