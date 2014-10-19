@@ -15,6 +15,10 @@ class ReposController < ApplicationController
     end
   end
 
+  def show
+    @repo = Repo.new(repo_params)
+  end
+
   private
 
   def repo_params
