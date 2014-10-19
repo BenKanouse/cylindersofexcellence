@@ -12,11 +12,14 @@ h3
       th = 'File Name'
       th = 'Resource'
       th = 'Lines For Person'
+      th = '% of file'
     - @repo.silos.each do |silo|
       tr
         td = silo.file_name
         td = silo.person
         td = silo.lines_for_person
+        - average = ((silo.lines_for_person.to_f / silo.total_lines.to_f) * 100)
+        td = (number_with_precision(average, :precision => 2))
 
 <script id="repo_json" type="text/json">
   = raw @repo.biggest_silos.to_json
