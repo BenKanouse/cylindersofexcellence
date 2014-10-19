@@ -62,7 +62,7 @@ end
 
 # A silo represents a file, along with its top author, number of lines by that author, and total number of lines.
 class Silo
-  USER_REGEX = /\A.{10}(?<user>.*)\s*\d{10}\s*-?\d{4}\s*\d*\)/
+  USER_REGEX = /\((?<user>.*)\s*\d{10}\s*[+-]\d{4}\s*\d*\)/
 
   attr_accessor :dir, :file_name
 
