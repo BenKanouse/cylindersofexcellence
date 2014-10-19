@@ -1,12 +1,9 @@
-== page_header('Knowlege Silos')
-
 == safari_dialog
 
 center
   #cylinder
 
-h3
-  'Repository Details
+== page_header('Repository Details')
 
 == panel(@repo.owner_and_name) do
   == render partial: 'silos_summary', :locals => { name: @repo.owner_and_name, silos: @repo.silos }
