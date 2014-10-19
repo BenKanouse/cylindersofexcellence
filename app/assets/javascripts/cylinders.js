@@ -1,15 +1,37 @@
 $( document ).ready(function() {
 
-  renderer = new THREE.WebGLRenderer({ alpha: true });
+  var scene = new THREE.Scene();
+  var renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(windowWidth(), windowHeight());
-  camera = new THREE.PerspectiveCamera(30, windowWidth() / windowHeight(), 2, 1000);
+  var camera = new THREE.PerspectiveCamera(30, windowWidth() / windowHeight(), 2, 1000);
   camera.position.z = Math.min(1.5 * windowHeight(), 1000);
 
-  init();
-
   var projector = new THREE.Projector();
+  var objects = [];
 
+  init();
+  document.getElementById("cylinder").addEventListener( 'mousedown', onDocumentMouseDown, false );
   window.addEventListener( 'resize', onWindowResize, false );
+
+  function onDocumentMouseDown(event) {
+    console.log("X: " + event.clientX);
+    console.log("Y: " + event.clientY);
+    event.preventDefault();
+    var vector = new THREE.Vector3(
+        ( (event.clientX - 231) / windowWidth() ) * 2 - 1,
+      - ( (event.clientY - 181) / windowHeight() ) * 2 + 1,
+        0.5
+    );
+    projector.unprojectVector( vector, camera );
+
+    var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+    var intersects = ray.intersectObjects( objects );
+
+    if (intersects.length > 0) {
+      console.log(intersects[0].object.metaData);
+    }
+
+  }
 
   function onWindowResize(){
 
@@ -53,49 +75,25 @@ $( document ).ready(function() {
     return -0.33 * windowHeight()
   }
 
+  function addToScene(object, metaData) {
+    scene.add(object);
+    object.metaData = metaData;
+    objects.push(object);
+  }
+
   function addCylinders(scene, siloSiding, siloRoof) {
     var statData = stats();
     var cylinderWidth = windowWidth() / 7;
     var maxLines = statData[0].lines_for_person;
     var scalar = (0.5 * windowHeight() )/maxLines;
 
-    var cylinder1 = createCylinder(cylinderWidth, scalar * statData[0].lines_for_person, -2 * cylinderWidth, siloSiding);
-    var cap1 = createCap(cylinderWidth, scalar * statData[0].lines_for_person, -2 * cylinderWidth, siloRoof);
-    var top1 = createTop(cylinderWidth, scalar * statData[0].lines_for_person, -2 * cylinderWidth, siloRoof);
-
-    var cylinder2 = createCylinder(cylinderWidth, scalar * statData[1].lines_for_person, -1 * cylinderWidth, siloSiding);
-    var cap2 = createCap(cylinderWidth, scalar * statData[1].lines_for_person, -1 * cylinderWidth, siloRoof);
-    var top2 = createTop(cylinderWidth, scalar * statData[1].lines_for_person, -1 * cylinderWidth, siloRoof);
-
-    var cylinder3 = createCylinder(cylinderWidth, scalar * statData[2].lines_for_person, 0, siloSiding);
-    var cap3 = createCap(cylinderWidth, scalar * statData[2].lines_for_person, 0, siloRoof);
-    var top3 = createTop(cylinderWidth, scalar * statData[2].lines_for_person, 0, siloRoof);
-
-    var cylinder4 = createCylinder(cylinderWidth, scalar * statData[3].lines_for_person, 1 * cylinderWidth, siloSiding);
-    var cap4 = createCap(cylinderWidth, scalar * statData[3].lines_for_person, 1 * cylinderWidth, siloRoof);
-    var top4 = createTop(cylinderWidth, scalar * statData[3].lines_for_person, 1 * cylinderWidth, siloRoof);
-
-    var cylinder5 = createCylinder(cylinderWidth, scalar * statData[4].lines_for_person, 2 * cylinderWidth, siloSiding);
-    var cap5 = createCap(cylinderWidth, scalar * statData[4].lines_for_person, 2 * cylinderWidth, siloRoof);
-    var top5 = createTop(cylinderWidth, scalar * statData[4].lines_for_person, 2 * cylinderWidth, siloRoof);
-
-    cylinder.overdraw = false;
-
-    scene.add(cylinder1);
-    scene.add(cap1);
-    scene.add(top1);
-    scene.add(cylinder2);
-    scene.add(cap2);
-    scene.add(top2);
-    scene.add(cylinder3);
-    scene.add(cap3);
-    scene.add(top3);
-    scene.add(cylinder4);
-    scene.add(cap4);
-    scene.add(top4);
-    scene.add(cylinder5);
-    scene.add(cap5);
-    scene.add(top5);
+    for (index = 0; index < 5; index++) {
+      var siloHeight = scalar * statData[index].lines_for_person;
+      var xLocation = (index - 2) * cylinderWidth;
+      addToScene(createCylinder(cylinderWidth, siloHeight, xLocation, siloSiding), "cylinder_" + index);
+      addToScene(createCap(cylinderWidth, siloHeight, xLocation, siloRoof), "cap_" + index);
+      addToScene(createTop(cylinderWidth, siloHeight, xLocation, siloRoof), "top_" + index);
+    }
   }
 
   function windowHeight() {
@@ -123,7 +121,6 @@ $( document ).ready(function() {
 
     document.getElementById("cylinder").appendChild(renderer.domElement);
 
-    var scene = new THREE.Scene();
     var siloSiding = siloSidingMaterial(scene, camera);
     var siloRoof = siloRoofMaterial(scene, camera);
     addCylinders(scene, siloSiding, siloRoof);
