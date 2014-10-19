@@ -24,6 +24,10 @@ class Repo
 
   def persisted?; false; end
 
+  def github_repo_exists?
+    Faraday.head(url).status == 200 or errors.add(:owner_and_name, "must point to a valid GitHub repo")
+  end
+
   # The biggest silo is the file that has the most lines written by a single user.
   def biggest_silos
     silos.sort_by!(&:lines_for_person).reverse.first(5)
