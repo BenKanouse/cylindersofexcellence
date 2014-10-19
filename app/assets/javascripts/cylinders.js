@@ -15,10 +15,10 @@ $( document ).ready(function() {
 
   init();
 
-  cylinderElement().addEventListener( 'mousedown', onDocumentMouseDown, false );
-  window.addEventListener( 'resize', onWindowResize, false );
+  cylinderElement().addEventListener('mousemove', onMouseMove, false );
+  window.addEventListener('resize', onWindowResize, false );
 
-  function onDocumentMouseDown(event) {
+  function onMouseMove(event) {
     event.preventDefault();
     var vector = new THREE.Vector3(
         ( (event.clientX - renderer.domElement.offsetLeft) / windowWidth() ) * 2 - 1,
