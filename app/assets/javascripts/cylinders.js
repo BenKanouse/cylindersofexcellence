@@ -22,31 +22,29 @@ $( document ).ready(function() {
   cylinderElement().addEventListener('mousemove', onMouseMove, false );
   window.addEventListener('resize', onWindowResize, false );
 
-  currentSpeechBubble = undefined;
-  currentText = undefined;
+  currentTextObjects = []
 
   function unsetCurrentText() {
-    if (currentSpeechBubble) {
-      scene.remove(currentSpeechBubble);
-    }
+    currentTextObjects.forEach(function(object) {
+      scene.remove(object);
+    });
     reRender();
   }
 
-  function setCurrentText(text) {
+  function setCurrentText(metaData) {
     unsetCurrentText();
-    if (text.length > 0) {
-      font = {
-        size: 8,
-        height: 0,
-        weight: 'normal'
-      }
-      var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
-      currentText = new THREE.TextGeometry(text, font);
-      currentSpeechBubble = new THREE.Mesh(currentText, textMaterial);
-      currentSpeechBubble.position.set(100, 100, 0.5 * cylinderWidth() + 10);
-      scene.add(currentSpeechBubble);
-      reRender();
+    font = {
+      size: 8,
+      height: 0,
+      weight: 'normal'
     }
+    var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
+    var currentText = new THREE.TextGeometry(metaData.person, font);
+    var currentSpeechBubble = new THREE.Mesh(currentText, textMaterial);
+    currentSpeechBubble.position.set(100, 100, 0.5 * cylinderWidth() + 10);
+    currentTextObjects.push(currentSpeechBubble);
+    scene.add(currentSpeechBubble);
+    reRender();
   }
 
   function onMouseMove(event) {
@@ -63,14 +61,14 @@ $( document ).ready(function() {
 
     if (intersects.length > 0) {
       var metaData = intersects[0].object.metaData;
-      setCurrentText(metaData.person);
+      setCurrentText(metaData);
 
       var element = document.getElementById("person");
       element.innerText = metaData.person;
       var element = document.getElementById("file_name");
       element.innerText = metaData.file_name;
     } else {
-      setCurrentText("");
+      unsetCurrentText();
     }
 
   }
