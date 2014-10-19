@@ -97,7 +97,7 @@ $( document ).ready(function() {
   function init() {
     var owner = ownerAndName();
     if (owner) {
-      $.get("repos/" + ownerAndName() + ".json", function(data) {
+      $.get("/repos/" + ownerAndName() + ".json", function(data) {
         if (data.length == 0) {
           setTimeout(init, 2000);
         } else {
