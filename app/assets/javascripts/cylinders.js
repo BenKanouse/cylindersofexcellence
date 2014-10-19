@@ -42,27 +42,32 @@ $( document ).ready(function() {
     reRender();
   }
 
+  var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
+
   function createTextObject(text, lineNumber) {
     font = {
       size: 8,
       height: 1,
       weight: 'normal'
     }
-    var textMaterial = new THREE.MeshBasicMaterial({color: "#000000"});
     var currentText = new THREE.TextGeometry(text, font);
     var currentMesh = new THREE.Mesh(currentText, textMaterial);
     currentMesh.position.set(75, 100 - (lineNumber * 10), 0.5 * cylinderWidth() + 5);
     currentTextObjects.push(currentMesh);
     scene.add(currentMesh);
-    reRender();
   }
 
   function setCurrentText(metaData) {
     unsetCurrentText();
-    createTextObject("It looks like " + metaData.person + " is a knowledge silo!", 1);
+    var fileName = metaData.file_name.split("/").pop();
+    createTextObject("It looks like " + metaData.person + " is a knowledge silo for file: " + fileName, 1);
     createTextObject("They've committed " + metaData.lines_for_person + " out of " + metaData.total_lines + " lines!", 2);
     createTextObject("That's " + metaData.percent_of_lines + " of the file!", 3);
+    reRender();
   }
+
+  var currentFileName = undefined;
+  var counter = 0;
 
   function onMouseMove(event) {
     event.preventDefault();
@@ -78,9 +83,13 @@ $( document ).ready(function() {
 
     if (intersects.length > 0) {
       var metaData = intersects[0].object.metaData;
-      setCurrentText(metaData);
+      if (currentFileName != metaData.file_name) {
+        currentFileName = metaData.file_name;
+        setCurrentText(metaData);
+      }
     } else {
       unsetCurrentText();
+      currentFileName = undefined;
     }
 
   }
