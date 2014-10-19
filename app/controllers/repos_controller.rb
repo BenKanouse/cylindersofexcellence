@@ -6,10 +6,14 @@ class ReposController < ApplicationController
   end
 
   def create
-    RepoWorker.perform_async(repo_params)
-    @repo = Repo.new(repo_params)
+    RepoWorker.perform_async(repo_params[:owner_and_name])
+    @repo = Repo.new(repo_params[:owner_and_name])
+    if @repo.save
+      render :show
+    else
+      render :index
+    end
     #flash[:notice] = "Loaded data for #{@repo.owner_and_name}"
-    render :show
   end
 
   def show
@@ -28,6 +32,6 @@ class ReposController < ApplicationController
   end
 
   def repo_params
-    params.require(:repo).require(:owner_and_name)
+    params.require(:repo).permit(:owner_and_name)
   end
 end
