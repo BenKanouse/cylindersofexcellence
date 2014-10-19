@@ -20,10 +20,9 @@ $( document ).ready(function() {
 
   function onDocumentMouseDown(event) {
     event.preventDefault();
-    var twitterBootstrapNavBarMargin = 50;
     var vector = new THREE.Vector3(
         ( (event.clientX - renderer.domElement.offsetLeft) / windowWidth() ) * 2 - 1,
-      - ( (event.clientY - renderer.domElement.offsetTop + twitterBootstrapNavBarMargin) / windowHeight() ) * 2 + 1,
+      - ( (event.clientY - renderer.domElement.offsetTop + window.pageYOffset) / windowHeight() ) * 2 + 1,
         1
     );
     projector.unprojectVector( vector, camera );
@@ -32,7 +31,11 @@ $( document ).ready(function() {
     var intersects = ray.intersectObjects( objects );
 
     if (intersects.length > 0) {
-      console.log(intersects[0].object.metaData);
+      var metaData = intersects[0].object.metaData;
+      var element = document.getElementById("person");
+      element.innerText = metaData.person;
+      var element = document.getElementById("file_name");
+      element.innerText = metaData.file_name;
     }
 
   }
@@ -92,11 +95,12 @@ $( document ).ready(function() {
     var scalar = (0.5 * windowHeight() )/maxLines;
 
     for (index = 0; index < 5; index++) {
-      var siloHeight = scalar * statData[index].lines_for_person;
+      var metaData = statData[index];
+      var siloHeight = scalar * metaData.lines_for_person;
       var xLocation = (index - 2) * cylinderWidth;
-      addToScene(createCylinder(cylinderWidth, siloHeight, xLocation, siloSiding), "cylinder_" + index);
-      addToScene(createCap(cylinderWidth, siloHeight, xLocation, siloRoof), "cap_" + index);
-      addToScene(createTop(cylinderWidth, siloHeight, xLocation, siloRoof), "top_" + index);
+      addToScene(createCylinder(cylinderWidth, siloHeight, xLocation, siloSiding), metaData);
+      addToScene(createCap(cylinderWidth, siloHeight, xLocation, siloRoof), metaData);
+      addToScene(createTop(cylinderWidth, siloHeight, xLocation, siloRoof), metaData);
     }
   }
 
