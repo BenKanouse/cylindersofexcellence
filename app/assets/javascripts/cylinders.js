@@ -190,7 +190,7 @@ $( document ).ready(function() {
   }
 
   function siloSidingMaterial(scene, camera) {
-    var texture = THREE.ImageUtils.loadTexture('images/silo.jpg');
+    var texture = THREE.ImageUtils.loadTexture('/images/silo.jpg');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set( 12, 3 );
@@ -211,7 +211,7 @@ $( document ).ready(function() {
     var siloRoof = siloRoofMaterial(scene, camera);
     addCylinders(data, scene, siloSiding, siloRoof);
 
-    var backgroundTexture = THREE.ImageUtils.loadTexture( 'images/field.jpg', {}, function() {
+    var backgroundTexture = THREE.ImageUtils.loadTexture( '/images/field.jpg', {}, function() {
       reRender();
     });
     var backgroundMesh = new THREE.Mesh(
