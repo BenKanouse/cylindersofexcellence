@@ -51,7 +51,9 @@ class Repo
 
     Dir.chdir(clone_path) do
       files.map do |file_name|
-        Silo.new(clone_path, file_name) unless File.zero?(file_name)
+        unless extension_blacklist.include?(File.extname(file_name))
+          Silo.new(clone_path, file_name) unless File.zero?(file_name)
+        end
       end.compact.sort_by(&:lines_for_person).reverse
     end
   end
@@ -65,6 +67,14 @@ class Repo
   end
 
   private
+
+  def extension_blacklist
+    [
+      ".png",
+      ".jpg",
+      ".md"
+    ]
+  end
 
   def files
     `git ls-files`.split("\n")
