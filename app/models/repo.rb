@@ -71,6 +71,7 @@ end
 
 # A silo represents a file, along with its top author, number of lines by that author, and total number of lines.
 class Silo
+  include ActionView::Helpers::NumberHelper
   USER_REGEX = /\((?<user>.*)\s*\d{10}\s*[+-]\d{4}\s*\d*\)/
 
   attr_accessor :dir, :file_name
@@ -84,6 +85,7 @@ class Silo
     {
       file_name: file_name,
       lines_for_person: lines_for_person,
+      percent_of_lines: percent_of_lines,
       person: person,
       total_lines: total_lines,
     }.as_json
@@ -95,6 +97,10 @@ class Silo
 
   def person
     @person ||= blames_by_user.max_by(&:last).first
+  end
+
+  def percent_of_lines
+    @percent_of_lines ||= percent_of_lines_by_user
   end
 
   def total_lines
@@ -123,4 +129,9 @@ class Silo
       hash
     end
   end
+
+  def percent_of_lines_by_user
+    number_to_percentage(lines_for_person.to_f / total_lines.to_f * 100, precision: 2)
+  end
+
 end

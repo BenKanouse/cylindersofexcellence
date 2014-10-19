@@ -21,6 +21,7 @@ describe Repo do
     specify { expect(subject.person).to eq("BenKanouse") }
     specify { expect(subject.lines_for_person).to eq(36) }
     specify { expect(subject.total_lines).to eq(41) }
+    specify { expect(subject.percent_of_lines).to eq('87.80%') }
   end
 
   describe "to_json" do
@@ -29,5 +30,6 @@ describe Repo do
     specify { expect(subject["lines_for_person"]).to eq(36) }
     specify { expect(subject["person"]).to eq("BenKanouse") }
     specify { expect(subject["total_lines"]).to eq(41) }
+    specify { expect(subject["percent_of_lines"]).to eq('87.80%') }
   end
 end
