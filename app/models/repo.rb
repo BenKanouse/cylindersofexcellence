@@ -41,13 +41,14 @@ class Repo
     silos.sort_by!(&:lines_for_person).reverse.first(5)
    end
 
+  def clone_path
+    File.join(REPO_ROOT, owner, name)
+  end
+
   def silos
     return [] if url.nil?
-    if File.directory?(clone_path)
-      refresh_repo
-    else
-      clone_repo
-    end
+    return [] unless File.directory?(clone_path)
+
     Dir.chdir(clone_path) do
       files.map do |file_name|
         Silo.new(clone_path, file_name) unless File.zero?(file_name)
@@ -67,10 +68,6 @@ class Repo
 
   def files
     `git ls-files`.split("\n")
-  end
-
-  def clone_path
-    File.join(REPO_ROOT, owner, name)
   end
 
   def set_user_avatars
